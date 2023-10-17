@@ -63,7 +63,7 @@ async function main() {
 			await gateway.connect(ccp, {
 				wallet,
 				identity: user,
-				discovery: { enabled: false, asLocalhost: true } // using asLocalhost as this gateway is using a fabric network deployed locally
+				discovery: { enabled: false, asLocalhost: false } // using asLocalhost as this gateway is using a fabric network deployed locally
 			});
 
 			// Build a network instance based on the channel where the smart contract is deployed
