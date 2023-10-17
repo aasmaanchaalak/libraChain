@@ -4,8 +4,8 @@
 
 'use strict';
 
-const FabCar = require('./lib/fabchat');
+const FabChat = require('./lib/fabchat');
 // const FabChat = require('./lib/fabchat');
 
-module.exports.FabCar = FabCar;
-module.exports.contracts = [ FabCar ];
+module.exports.FabChat = FabChat;
+module.exports.contracts = [ FabChat ];
