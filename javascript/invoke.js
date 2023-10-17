@@ -6,7 +6,7 @@
 
 const FabricCAServices = require('fabric-ca-client');
 const { Gateway, Wallets } = require('fabric-network');
-
+const path = require('path');
 const { buildCAClient, registerAndEnrollUser, enrollAdmin } = require('../../test-application/javascript/CAUtil.js');
 const { buildCCPOrg1, buildWallet } = require('../../test-application/javascript/AppUtil.js');
 
