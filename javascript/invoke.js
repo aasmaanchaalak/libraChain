@@ -72,7 +72,10 @@ async function main() {
 			// Get the contract from the network.
 			const contract = network.getContract(chaincodeName);
 
-            if (choice === 'createMsg') {
+            if (choice === 'initLedger') {
+                await contract.submitTransaction('initLedger');
+                console.log(`${choice} Transaction has been submitted`);
+            } else if (choice === 'createMsg') {
                 await contract.submitTransaction('createMsg', msg, emailID, isAnonymous);
                 console.log(`${choice} Transaction has been submitted`);
             } else if (choice === 'flagMsg') {
