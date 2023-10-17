@@ -46,7 +46,7 @@ async function main() {
         // setup the wallet to hold the credentials of the application user
 		const wallet = await buildWallet(Wallets, walletPath);
 
-        const userExists = await wallet.exists(user);
+        const userExists = await wallet.get(user);
         if (!userExists) {
             console.log(`An identity for the user ${user} does not exist in the wallet`);
             console.log('Run the registerUser.js application before retrying');
