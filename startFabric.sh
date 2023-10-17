@@ -14,7 +14,7 @@ CC_SRC_LANGUAGE=${1:-"javascript"}
 CC_SRC_LANGUAGE=`echo "$CC_SRC_LANGUAGE" | tr [:upper:] [:lower:]`
 
 if [ "$CC_SRC_LANGUAGE" = "javascript" ]; then
-	CC_SRC_PATH="../../fabchat/chaincode/javascript/"
+	CC_SRC_PATH="../fabchat/chaincode/javascript/"
 else
 	echo The chaincode language ${CC_SRC_LANGUAGE} is not supported by this script
 	echo Supported chaincode languages are: go, java, javascript, and typescript
