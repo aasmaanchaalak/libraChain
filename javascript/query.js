@@ -14,7 +14,7 @@ let msgID;
 let userID;
 process.argv.forEach(function (val, index, array) {
     msgID = array[2];
-    user = array[3];
+    userID = array[3];
 });
 
 async function main() {
