@@ -1,225 +1,145 @@
 /*
+ * Copyright IBM Corp. All Rights Reserved.
+ *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 'use strict';
 
-const {Contract} = require('fabric-contract-api');
-const ClientIdentity = require('fabric-shim').ClientIdentity;
+const { Contract } = require('fabric-contract-api');
 
-// msgID of last msg that was posted
-let msgID = -1;
-// list of users
-let users = [];
-
-class FabChat extends Contract {
+class FabCar extends Contract {
 
     async initLedger(ctx) {
         console.info('============= START : Initialize Ledger ===========');
+        const cars = [
+            {
+                color: 'blue',
+                make: 'Toyota',
+                model: 'Prius',
+                owner: 'Tomoko',
+            },
+            {
+                color: 'red',
+                make: 'Ford',
+                model: 'Mustang',
+                owner: 'Brad',
+            },
+            {
+                color: 'green',
+                make: 'Hyundai',
+                model: 'Tucson',
+                owner: 'Jin Soo',
+            },
+            {
+                color: 'yellow',
+                make: 'Volkswagen',
+                model: 'Passat',
+                owner: 'Max',
+            },
+            {
+                color: 'black',
+                make: 'Tesla',
+                model: 'S',
+                owner: 'Adriana',
+            },
+            {
+                color: 'purple',
+                make: 'Peugeot',
+                model: '205',
+                owner: 'Michel',
+            },
+            {
+                color: 'white',
+                make: 'Chery',
+                model: 'S22L',
+                owner: 'Aarav',
+            },
+            {
+                color: 'violet',
+                make: 'Fiat',
+                model: 'Punto',
+                owner: 'Pari',
+            },
+            {
+                color: 'indigo',
+                make: 'Tata',
+                model: 'Nano',
+                owner: 'Valeria',
+            },
+            {
+                color: 'brown',
+                make: 'Holden',
+                model: 'Barina',
+                owner: 'Shotaro',
+            },
+        ];
 
-        const startKey = '0';
-        const endKey = '99999';
-
-        const iterator = await ctx.stub.getStateByRange(startKey, endKey);
-
-        while (true) {
-            const res = await iterator.next();
-
-            if (res.value && res.value.value.toString()) {
-                // console.log(res.value.value.toString('utf8'));
-                let msg;
-                try {
-                    msg = JSON.parse(res.value.value.toString('utf8'));
-
-                    // update users array and msgID
-                    if (msg.msgText === "$HELLO$") {
-                        users.push(msg.userID);
-                    }
-
-                    msgID += 1;
-
-                } catch (err) {
-                    console.log(err);
-                    msg = res.value.value.toString('utf8');
-                }
-            }
-
-            if (res.done) {
-                await iterator.close();
-                console.log(`users: ${users}`);
-                console.log(`numUsers: ${users.length}`);
-                console.log(`lastMsgID: ${msgID}`);
-                break;
-            }
+        for (let i = 0; i < cars.length; i++) {
+            cars[i].docType = 'car';
+            await ctx.stub.putState('CAR' + i, Buffer.from(JSON.stringify(cars[i])));
+            console.info('Added <--> ', cars[i]);
         }
         console.info('============= END : Initialize Ledger ===========');
     }
 
-    async createMsg(ctx, msgText, emailID, isAnonymous) {
-        console.info('============= START : CREATEmsg ===========');
+    async queryCar(ctx, carNumber) {
+        const carAsBytes = await ctx.stub.getState(carNumber); // get the car from chaincode state
+        if (!carAsBytes || carAsBytes.length === 0) {
+            throw new Error(`${carNumber} does not exist`);
+        }
+        console.log(carAsBytes.toString());
+        return carAsBytes.toString();
+    }
 
-        let cid = new ClientIdentity(ctx.stub);
-        let userID = cid.getID();
+    async createCar(ctx, carNumber, make, model, color, owner) {
+        console.info('============= START : Create Car ===========');
 
-        console.log(`msgText : ${msgText}`);
-        console.log(`userID  : ${userID}`);
-        console.log(`emailID : ${emailID}`);
-        console.log(`isAnonymous : ${isAnonymous}`);
-
-        const flaggers = [];
-        const flag = 0;
-
-        const msg = {
-            msgText,
-            userID,
-            flag,
-            flaggers,
-            emailID,
-            isAnonymous, 
+        const car = {
+            color,
+            docType: 'car',
+            make,
+            model,
+            owner,
         };
 
-        // if new user, add user to users array
-        if (!(users.includes(userID))) {
-            console.log(`New user! Added to users array.`);
-            users.push(userID);
-        }
-
-        msgID += 1;
-
-        await ctx.stub.putState(msgID.toString(), Buffer.from(JSON.stringify(msg)));
-        console.info('============= END : createMsg ===========');
+        await ctx.stub.putState(carNumber, Buffer.from(JSON.stringify(car)));
+        console.info('============= END : Create Car ===========');
     }
 
-    async queryMsg(ctx, msgID) {
-        console.info('============= START : queryMsgByID ===========');
-        console.log(`msgID: ${msgID}`);
-
-        const msgAsBytes = await ctx.stub.getState(msgID); // get the msg from chaincode state
-        if (!msgAsBytes || msgAsBytes.length === 0) {
-            throw new Error(`${msgID} does not exist`);
-        }
-        let msg;
-        msg = JSON.parse(msgAsBytes.toString());
-
-        // don't show registration $HELLO$ records
-        if (msg.msgText === "$HELLO$") {
-            throw new Error(`${msgID} does not exist`);
-        }
-
-        // don't show email ID if flag is not -1 and isAnonymous is true
-        if (msg.flag !== -1 && msg.isAnonymous === 'true') {
-            delete msg.emailID;
-        }
-        
-
-        // no need to show these fields anyway
-        delete msg.flag;
-        delete msg.flaggers;
-        delete msg.userID;
-
-        console.log(msg);
-        console.info('============= END : queryMsgByID ===========');
-        return JSON.stringify(msg);
-    }
-
-
-    async queryAllMsgs(ctx) {
-        console.info('============= START : queryAllMsgs ===========');
-
-        const startKey = '0';
-        const endKey = '99999';
-
-        const iterator = await ctx.stub.getStateByRange(startKey, endKey);
-
+    async queryAllCars(ctx) {
+        const startKey = '';
+        const endKey = '';
         const allResults = [];
-        while (true) {
-            const res = await iterator.next();
-
-            if (res.value && res.value.value.toString()) {
-                // console.log(res.value.value.toString('utf8'));
-
-                const Key = res.value.key;
-                let msg;
-                try {
-                    msg = JSON.parse(res.value.value.toString('utf8'));
-
-                    // don't show registration $HELLO$ records
-                    if (msg.msgText === "$HELLO$") {
-                        continue;
-                    }
-
-                    // don't show email ID if flag is not -1
-                    if (msg.flag !== -1 && msg.isAnonymous === 'true') {
-                        delete msg.emailID;
-                    }
-
-                    // no need to show these fields anyway
-                    delete msg.userID;
-                    delete msg.flag;
-                    delete msg.flaggers;
-
-                } catch (err) {
-                    console.log(err);
-                    msg = res.value.value.toString('utf8');
-                }
-                allResults.push({Key, msg});
+        for await (const {key, value} of ctx.stub.getStateByRange(startKey, endKey)) {
+            const strValue = Buffer.from(value).toString('utf8');
+            let record;
+            try {
+                record = JSON.parse(strValue);
+            } catch (err) {
+                console.log(err);
+                record = strValue;
             }
-            if (res.done) {
-                await iterator.close();
-                console.info(allResults);
-                console.info('============= END : queryAllMsgs ===========');
-                return JSON.stringify(allResults);
-            }
+            allResults.push({ Key: key, Record: record });
         }
+        console.info(allResults);
+        return JSON.stringify(allResults);
     }
 
-    async flagMsg(ctx, msgID) {
-        console.info('============= START : flagMsg ===========');
+    async changeCarOwner(ctx, carNumber, newOwner) {
+        console.info('============= START : changeCarOwner ===========');
 
-        let cid = new ClientIdentity(ctx.stub);
-        let flagger = cid.getID();
-        let threshold = Math.ceil(0.5 * users.length);
-
-        console.log(`numUsers: ${users.length}`);
-        console.log(`threshold: ${threshold}`);
-        console.log(`msgID: ${msgID}`);
-        console.log(`flagger  : ${flagger}`);
-
-        const msgAsBytes = await ctx.stub.getState(msgID); // get the msg from chaincode state
-        if (!msgAsBytes || msgAsBytes.length === 0) {
-            throw new Error(`${msgID} does not exist`);
+        const carAsBytes = await ctx.stub.getState(carNumber); // get the car from chaincode state
+        if (!carAsBytes || carAsBytes.length === 0) {
+            throw new Error(`${carNumber} does not exist`);
         }
-        const msg = JSON.parse(msgAsBytes.toString());
+        const car = JSON.parse(carAsBytes.toString());
+        car.owner = newOwner;
 
-        /* flag only if:
-			1. flagger is not trying to flag its own msg
-			2. flagger has not already flagged the msg
-			3. flagger is not trying to flag $HELLO$ msgs
-			4. flagger is not trying to flag a msg with flag = -1
-        */
-        if ((flagger !== msg.userID) && !(msg.flaggers.includes(flagger)) && (msg.msgText !== "$HELLO$") && (msg.flag !== -1)) {
-
-            // push new flagger in flaggers array
-            msg.flaggers.push(flagger);
-            // increment flag
-            msg.flag += 1;
-
-            console.log(`msgID ${msgID} flagged successfully!`);
-
-            // if flag count reaches threshold, set flag = -1
-            if (msg.flag >= threshold) {
-                msg.flag = -1;
-                console.log(`msgID ${msgID} flag count has now reached threshold!`);
-            }
-
-        } else {
-            throw new Error(`Cannot flag message!`);
-        }
-
-        await ctx.stub.putState(msgID, Buffer.from(JSON.stringify(msg)));
-        console.info('============= END : flagMsg ===========');
+        await ctx.stub.putState(carNumber, Buffer.from(JSON.stringify(car)));
+        console.info('============= END : changeCarOwner ===========');
     }
 
 }
 
-module.exports = FabChat;
+module.exports = FabCar;
