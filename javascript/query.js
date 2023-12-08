@@ -12,9 +12,13 @@ const fs = require('fs');
 
 let msgID;
 let userID;
+let arg1, arg2, arg3;
 process.argv.forEach(function (val, index, array) {
     msgID = array[2];
     userID = array[3];
+    arg1 = array[4];
+    arg2 = array[5];
+    arg3 = array[6];
 });
 
 async function main() {
@@ -49,17 +53,30 @@ async function main() {
         // Evaluate the specified transaction.
         // queryMsg transaction - requires 1 argument, ex: ('queryMsg', 'MSG0')
         // queryAllMsgs transaction - requires no arguments, ex: ('queryAllMsgs')
-        if (msgID === "-1") {
+        if (msgID === '-1') {
             const result = await contract.evaluateTransaction('queryAllMsgs');
             console.log(`TransactionTypeAll has been evaluated, result is: ${result.toString()}`);
-        } else {
-            const result = await contract.evaluateTransaction('queryMsg', msgID);
+        } else if (msgID == 'findBook'){
+            if (!arg3){
+                arg3 = "";
+            }
+            if (!arg2){
+                arg2="";
+            }
+            const result = await contract.evaluateTransaction(msgID, arg1, arg2, arg3);
+            console.log(`TransactionTypeID has been evaluated, result is: ${result.toString()}`);
+            
+        } else if (arg1){
+            const result = await contract.evaluateTransaction(msgID, arg1);
+            console.log(`TransactionTypeID has been evaluated, result is: ${result.toString()}`);
+        } 
+        else {
+            const result = await contract.evaluateTransaction(msgID);
             console.log(`TransactionTypeID has been evaluated, result is: ${result.toString()}`);
         }
 
         // Disconnect from the gateway.
         await gateway.disconnect();
-        
     } catch (error) {
         console.error(`Failed to evaluate transaction: ${error}`);
         process.exit(1);
