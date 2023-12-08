@@ -20,7 +20,7 @@ let books = [
 
 // GET /books endpoint to fetch all books
 app.get('/admin', (req, res) => {
-    child = exec('node enrollAdmin {{args}}',
+    child = exec('node enrollAdmin',
     function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
@@ -36,7 +36,7 @@ app.get('/admin', (req, res) => {
 app.get('/register', (req, res) => {
     var q = url.parse(req.url, true).query;
     var id = q.id;
-    child = exec(`node registerUser ${id}`,
+    child = exec(`node registerUser`,
     function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
@@ -54,7 +54,23 @@ app.get('/student', (req, res) => {
     var id = q.id;
     var email = q.email;
     var name = q.name;
-    child = exec(`node invoke registerUser ${id} ${email} ${name}`,
+    child = exec(`node invoke registerStudent ${email} ${name}`,
+    function (error, stdout, stderr) {
+        console.log('stdout: ' + stdout);
+        console.log('stderr: ' + stderr);
+        res.json(stdout);
+        if (error !== null) {
+        console.log('exec error: ' + error);
+        res.json(error);
+        }
+    });
+  //res.json(books);
+});
+
+app.get('/login', (req, res) => {
+    var q = url.parse(req.url, true).query;
+    var email = q.email;
+    child = exec('node query loginStudent ${email}',
     function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
@@ -70,7 +86,7 @@ app.get('/student', (req, res) => {
 app.get('/catalogue', (req, res) => {
     var q = url.parse(req.url, true).query;
     var id = q.id;
-    child = exec(`node query getCatalogue ${id}`,
+    child = exec(`node query getCatalogue`,
     function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
@@ -89,7 +105,7 @@ app.get('/find', (req, res) => {
     var name = q.name;
     var author = q.author ? q.author : "";
     var genre = q.genre ? q.genre : "";
-    child = exec(`node query findBook ${id} ${name} ${author} ${genre}`,
+    child = exec(`node query findBook ${name} ${author} ${genre}`,
     function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
@@ -194,7 +210,7 @@ app.get('/current', (req, res) => {
 app.get('/users', (req, res) => {
     var q = url.parse(req.url, true).query;
     var id = q.id;
-    child = exec(`node query getUsers ${id}`,
+    child = exec(`node query getUsers`,
     function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
