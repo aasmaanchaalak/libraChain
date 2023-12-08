@@ -22,6 +22,7 @@ process.argv.forEach(function (val, index, array) {
 userID = 101
 
 async function main() {
+    userID = "101";
     try {
         // load the network configuration
         const ccpPath = path.resolve(__dirname, '..', '..', 'test-network', 'organizations', 'peerOrganizations', 'org1.example.com', 'connection-org1.json');
