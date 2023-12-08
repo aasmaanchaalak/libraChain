@@ -68,7 +68,7 @@ async function main() {
             
         } else if (arg1){
             const result = await contract.evaluateTransaction(msgID, arg1);
-            console.log(`${result.toString()}`);
+            console.log(result);
         } 
         else {
             const result = await contract.evaluateTransaction(msgID);
