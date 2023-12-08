@@ -68,7 +68,7 @@ async function main() {
             
         } else if (arg1){
             const result = await contract.evaluateTransaction(msgID, arg1);
-            console.log(`TransactionTypeID has been evaluated, result is: ${result.toString()}`);
+            console.log(`${result.toString()}`);
         } 
         else {
             const result = await contract.evaluateTransaction(msgID);
