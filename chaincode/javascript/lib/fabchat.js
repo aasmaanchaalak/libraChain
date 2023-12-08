@@ -52,11 +52,10 @@ class FabChat extends Contract {
         console.info('============= END : Initialize Ledger ===========');
     }
 
-    async registerStudent(ctx, email, name) {
+    async registerStudent(ctx, id, email, name) {
         console.info('============= START : Register Student ===========');
 
         let cid = new ClientIdentity(ctx.stub);
-        let libraryId = cid.getID();
 
         console.log(`Email : ${email}`);
         console.log(`Name : ${name}`);
@@ -65,9 +64,9 @@ class FabChat extends Contract {
         let currentBooks = [];
 
         const Student = {
+            id,
             email,
             name,
-            libraryId,
             currentBooks,
             lendingPeriod
         };
@@ -78,11 +77,11 @@ class FabChat extends Contract {
         console.info('============= END : Added Student ===========');
     }
 
-    async addBook(ctx, name, author, genre) {
+    async addBook(ctx, id, name, author, genre) {
         console.info('============= START : Add Book ===========');
 
         let cid = new ClientIdentity(ctx.stub);
-        let userID = cid.getID();
+        let userID = id;
 
         if (author === undefined) {
             author = "";
@@ -342,11 +341,11 @@ class FabChat extends Contract {
 
     
 
-    async issueBook(ctx, name) {
+    async issueBook(ctx, id, name) {
         console.info('============= START : Issue Book ===========');
 
         let cid = new ClientIdentity(ctx.stub);
-        let issuer = cid.getID();
+        let issuer = id;
 
         let startKey = '10';
         let endKey = '30';
@@ -365,7 +364,7 @@ class FabChat extends Contract {
                 try {
                     user = JSON.parse(res.value.value.toString('utf8'));
 
-                    if (user.libraryId == issuer){
+                    if (user.id == issuer){
                         break;
                     } else{
                         return "USER NOT FOUND";
@@ -456,10 +455,9 @@ class FabChat extends Contract {
         console.info('============= END : Issue Book ===========');
     }
 
-    async getUser(ctx){
+    async getUser(ctx, id){
 
         let cid = new ClientIdentity(ctx.stub);
-        let libraryId = cid.getID();
 
         const startKey = '10';
         const endKey = '30';
@@ -479,7 +477,7 @@ class FabChat extends Contract {
                 try {
                     user = JSON.parse(res.value.value.toString('utf8'));
 
-                    if (user.libraryId == libraryId){
+                    if (user.id == id){
                         break;
                     }
 
@@ -494,11 +492,11 @@ class FabChat extends Contract {
             console.info('============= END : Find User ===========');
     }
 
-    async returnBook(ctx, name) {
+    async returnBook(ctx, id, name) {
         console.info('============= START : Return Book ===========');
 
         let cid = new ClientIdentity(ctx.stub);
-        let returner = cid.getID();
+        let returner = id;
 
         let startKey = '10';
         let endKey = '30';
@@ -517,7 +515,7 @@ class FabChat extends Contract {
                 try {
                     user = JSON.parse(res.value.value.toString('utf8'));
 
-                    if (user.libraryId == returner){
+                    if (user.id == returner){
                         break;
                     } else{
                         return "USER NOT FOUND";
