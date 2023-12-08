@@ -10,13 +10,13 @@ const { Gateway, Wallets } = require('fabric-network');
 const fs = require('fs');
 const path = require('path');
 
-let userID, choice, msg, emailID, isAnonymous;
+let userID, choice, arg1, arg2, arg3;
 process.argv.forEach(function (val, index, array) {
     choice = array[2];
-    msg = array[3];
-    userID = array[4];
-    emailID = array[5];
-    isAnonymous = array[6];
+    userID = array[3];
+    arg1 = array[4];
+    arg2 = array[5];
+    arg3 = array[6];
 });
 
 async function main() {
@@ -52,11 +52,20 @@ async function main() {
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR12', 'Dave')
         // await contract.submitTransaction('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom');
-        if (choice === 'createMsg') {
-            await contract.submitTransaction('createMsg', msg, emailID, isAnonymous);
+        if (choice === 'addBook') {
+            await contract.submitTransaction('addBook', arg1, arg2, arg3);
             console.log(`${choice} Transaction has been submitted`);
-        } else if (choice === 'flagMsg') {
-            await contract.submitTransaction('flagMsg', msg);
+        } else if (choice === 'issueBook') {
+            await contract.submitTransaction('issueBook', arg1);
+            console.log(`${choice} Transaction has been submitted`);
+        } else if (choice === 'returnBook') {
+            await contract.submitTransaction('returnBook', arg1);
+            console.log(`${choice} Transaction has been submitted`);
+        } else if (choice === 'updateBook') {
+            await contract.submitTransaction('updateBook', arg1, arg2, arg3);
+            console.log(`${choice} Transaction has been submitted`);
+        } else if (choice === 'registerStudent') {
+            await contract.submitTransaction('registerStudent', arg1, arg2);
             console.log(`${choice} Transaction has been submitted`);
         } else {
             console.log(`${choice} is invalid!`);
