@@ -52,13 +52,17 @@ class FabChat extends Contract {
         console.info('============= END : Initialize Ledger ===========');
     }
 
-    async registerStudent(ctx, id, email, name) {
+    async registerStudent(ctx, email, name) {
         console.info('============= START : Register Student ===========');
 
         let cid = new ClientIdentity(ctx.stub);
 
         console.log(`Email : ${email}`);
         console.log(`Name : ${name}`);
+
+        uID += 1;
+
+        id = uID;
 
         let lendingPeriod = 10;
         let currentBooks = [];
@@ -71,7 +75,7 @@ class FabChat extends Contract {
             lendingPeriod
         };
 
-        uID += 1;
+        
 
         await ctx.stub.putState(uID.toString(), Buffer.from(JSON.stringify(Student)));
         return uID;
