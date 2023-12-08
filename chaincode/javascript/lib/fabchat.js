@@ -8,7 +8,7 @@ const {Contract} = require('fabric-contract-api');
 const ClientIdentity = require('fabric-shim').ClientIdentity;
 
 let bID = -1; //start key for books
-let uID = 9; //start key for users
+let uID = 99; //start key for users
 // list of users
 let users = [];
 let email = "";
