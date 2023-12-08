@@ -72,7 +72,7 @@ async function main() {
         } 
         else {
             const result = await contract.evaluateTransaction(msgID);
-            console.log(`${result.toString()}`);
+            console.log(result);
         }
 
         // Disconnect from the gateway.
