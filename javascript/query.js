@@ -11,11 +11,12 @@ const path = require('path');
 const fs = require('fs');
 
 let msgID;
-let userID;
+let userID = 101;
 let arg1, arg2, arg3;
+let id;
 process.argv.forEach(function (val, index, array) {
     msgID = array[2];
-    userID = array[3];
+    id = array[3];
     arg1 = array[4];
     arg2 = array[5];
     arg3 = array[6];
