@@ -68,11 +68,11 @@ async function main() {
             
         } else if (arg1){
             const result = await contract.evaluateTransaction(msgID, arg1);
-            console.log(result);
+            console.log(JSON.parse(result));
         } 
         else {
             const result = await contract.evaluateTransaction(msgID);
-            console.log(result);
+            console.log(JSON.parse(result));
         }
 
         // Disconnect from the gateway.
