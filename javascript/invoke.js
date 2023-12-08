@@ -10,14 +10,16 @@ const { Gateway, Wallets } = require('fabric-network');
 const fs = require('fs');
 const path = require('path');
 
-let userID, choice, arg1, arg2, arg3;
+let userID, choice, id, arg1, arg2, arg3;
 process.argv.forEach(function (val, index, array) {
     choice = array[2];
-    userID = array[3];
+    id = array[3];
     arg1 = array[4];
     arg2 = array[5];
     arg3 = array[6];
 });
+
+userID = 101
 
 async function main() {
     try {
@@ -53,16 +55,16 @@ async function main() {
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR12', 'Dave')
         // await contract.submitTransaction('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom');
         if (choice === 'addBook') {
-            await contract.submitTransaction('addBook', arg1, arg2, arg3);
+            await contract.submitTransaction('addBook', id, arg1, arg2, arg3);
             console.log(`${choice} Transaction has been submitted`);
         } else if (choice === 'issueBook') {
-            await contract.submitTransaction('issueBook', arg1);
+            await contract.submitTransaction('issueBook', id, arg1);
             console.log(`${choice} Transaction has been submitted`);
         } else if (choice === 'returnBook') {
-            await contract.submitTransaction('returnBook', arg1);
+            await contract.submitTransaction('returnBook', id, arg1);
             console.log(`${choice} Transaction has been submitted`);
         } else if (choice === 'updateBook') {
-            await contract.submitTransaction('updateBook', arg1, arg2, arg3);
+            await contract.submitTransaction('updateBook', id, arg1, arg2, arg3);
             console.log(`${choice} Transaction has been submitted`);
         } else if (choice === 'registerStudent') {
             await contract.submitTransaction('registerStudent', arg1, arg2);
