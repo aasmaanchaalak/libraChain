@@ -72,7 +72,7 @@ async function main() {
         } 
         else {
             const result = await contract.evaluateTransaction(msgID);
-            console.log(`TransactionTypeID has been evaluated, result is: ${result.toString()}`);
+            console.log(`${result.toString()}`);
         }
 
         // Disconnect from the gateway.
