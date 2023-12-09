@@ -68,7 +68,6 @@ async function main() {
             await contract.submitTransaction('updateBook', id, arg1, arg2, arg3);
             console.log(`${choice} Transaction has been submitted`);
         } else if (choice === 'registerStudent') {
-            console.log(`${arg1}`);
             let result = await contract.submitTransaction('registerStudent', id, arg1);
             console.log(`${result}`);
         } else {
