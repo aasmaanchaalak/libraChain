@@ -58,6 +58,9 @@ async function main() {
         if (msgID === '-1') {
             const result = await contract.evaluateTransaction('queryAllMsgs');
             console.log(`TransactionTypeAll has been evaluated, result is: ${result.toString()}`);
+        } if (msgID === 'loginStudent'){
+            const result = await contract.evaluateTransaction(msgID, id);
+            console.log(`${result}`);
         } else if (msgID == 'findBook'){
             if (!arg3){
                 arg3 = "";
