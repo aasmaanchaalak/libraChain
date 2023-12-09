@@ -60,12 +60,11 @@ class FabChat extends Contract {
         console.log(`Email : ${email}`);
         console.log(`Name : ${name}`);
 
-        uID += 1;
-
-        id = uID;
-
         let lendingPeriod = 10;
         let currentBooks = [];
+
+        uID += 1;
+        let id = uID;
 
         const Student = {
             id,
@@ -75,10 +74,11 @@ class FabChat extends Contract {
             lendingPeriod
         };
 
+        console.log("doing this");
+        console.log(`${uID}`);
         
-
         await ctx.stub.putState(uID.toString(), Buffer.from(JSON.stringify(Student)));
-        return uID;
+        return JSON.stringify(uID);
         console.info('============= END : Added Student ===========');
     }
 
