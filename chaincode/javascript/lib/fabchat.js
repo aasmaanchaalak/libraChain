@@ -104,7 +104,7 @@ class FabChat extends Contract {
                     user = JSON.parse(res.value.value.toString('utf8'));
 
                     if (user.email == email){
-                        return user.id;
+                        return JSON.stringify(user.id);
                     }
 
                 } catch (err) {
@@ -203,11 +203,11 @@ class FabChat extends Contract {
                 await iterator.close();
                 console.info(allResults);
 
-                if (author == "" || book.author == author){
+                if (author == "NA" || book.author == author){
                     author = book.author
                 }
 
-                if (genre == "" || book.genre == genre){
+                if (genre == "NA" || book.genre == genre){
                     genre = book.genre
                 }
 
@@ -336,31 +336,31 @@ class FabChat extends Contract {
                 try {
                     book = JSON.parse(res.value.value.toString('utf8'));
 
-                    if (name != "" && author != "" && genre != ""){
+                    if (name != "NA" && author != "NA" && genre != "NA"){
                         if (book.name === name && book.author === author && book.genre == genre){
                             allResults.push({Key, book});
                         }
-                    } else if (name != "" && author != ""){
+                    } else if (name != "NA" && author != "NA"){
                         if (book.name === name && book.author === author){
                             allResults.push({Key, book});
                         }
-                    } else if (name != "" && genre != ""){
+                    } else if (name != "NA" && genre != "NA"){
                         if (book.name === name && book.genre === genre){
                             allResults.push({Key, book});
                         }
-                    } else if (author != "" && genre != ""){
+                    } else if (author != "NA" && genre != "NA"){
                         if (book.author === author && book.genre === genre){
                             allResults.push({Key, book});
                         }
-                    } else if (name != ""){
+                    } else if (name != "NA"){
                         if (book.name === name){
                             allResults.push({Key, book});
                         }
-                    } else if (author != ""){
+                    } else if (author != "NA"){
                         if (book.author === author){
                             allResults.push({Key, book});
                         }
-                    } else if (genre != ""){
+                    } else if (genre != "NA"){
                         if (book.genre === genre){
                             allResults.push({Key, book});
                         }
