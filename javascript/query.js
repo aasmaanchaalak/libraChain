@@ -62,13 +62,13 @@ async function main() {
             const result = await contract.evaluateTransaction(msgID, id);
             console.log(`${result}`);
         } else if (msgID == 'findBook'){
-            if (!arg3){
-                arg3 = "";
-            }
             if (!arg2){
-                arg2="";
+                arg2 = "";
             }
-            const result = await contract.evaluateTransaction(msgID, arg1, arg2, arg3);
+            if (!arg1){
+                arg1="";
+            }
+            const result = await contract.evaluateTransaction(msgID, id, arg1, arg2);
             console.log(`${result}`);
             
         } else if (arg1){
