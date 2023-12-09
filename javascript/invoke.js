@@ -68,12 +68,13 @@ async function main() {
             await contract.submitTransaction('updateBook', id, arg1, arg2, arg3);
             console.log(`${choice} Transaction has been submitted`);
         } else if (choice === 'registerStudent') {
-            await contract.submitTransaction('registerStudent', arg1, arg2, arg3);
-            console.log(`${choice} Transaction has been submitted`);
+            console.log(`${arg1}`);
+            let result = await contract.submitTransaction('registerStudent', id, arg1);
+            console.log(`${result}`);
         } else {
             console.log(`${choice} is invalid!`);
         }
-        console.log('Transaction has been submitted');
+        //console.log('Transaction has been submitted');
 
         // Disconnect from the gateway.
         await gateway.disconnect();
