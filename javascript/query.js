@@ -69,7 +69,7 @@ async function main() {
                 arg2="";
             }
             const result = await contract.evaluateTransaction(msgID, arg1, arg2, arg3);
-            console.log(`TransactionTypeID has been evaluated, result is: ${result.toString()}`);
+            console.log(`${result}`);
             
         } else if (arg1){
             const result = await contract.evaluateTransaction(msgID, arg1);
@@ -83,7 +83,7 @@ async function main() {
         // Disconnect from the gateway.
         await gateway.disconnect();
     } catch (error) {
-        console.error(`Failed to evaluate transaction: ${error}`);
+        console.error(`${error}`);
         process.exit(1);
     }
 }
