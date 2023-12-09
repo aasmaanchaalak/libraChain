@@ -224,7 +224,7 @@ class FabChat extends Contract {
                     owner,
                 };
 
-                bID = Key;
+                bID = parseInt(Key);
 
                 if (Key != -1){
                     await ctx.stub.putState(bID.toString(), Buffer.from(JSON.stringify(Book)));
@@ -490,7 +490,7 @@ class FabChat extends Contract {
 
         console.log(Book);
 
-        bID = Key;
+        bID = parseInt(Key);
 
         await ctx.stub.putState(bID.toString(), Buffer.from(JSON.stringify(Book)));
         console.info('============= END : Issue Book ===========');
