@@ -340,6 +340,10 @@ class FabChat extends Contract {
                 // console.log(res.value.value.toString('utf8'));
 
                 const Key = res.value.key;
+                if (parseInt(Key) > parseInt(endKey)){
+                    continue;
+                }
+                
                 let book;
                 try {
                     book = JSON.parse(res.value.value.toString('utf8'));
