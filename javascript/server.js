@@ -36,7 +36,7 @@ app.get('/admin', (req, res) => {
 app.get('/register', (req, res) => {
     var q = url.parse(req.url, true).query;
     var id = q.id;
-    child = exec(`node registerUser`,
+    child = exec(`node registerUser ${id}`,
     function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
@@ -69,7 +69,7 @@ app.get('/student', (req, res) => {
 app.get('/login', (req, res) => {
     var q = url.parse(req.url, true).query;
     var email = q.email;
-    child = exec('node query loginStudent ${email}',
+    child = exec(`node query loginStudent ${email}`,
     function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
