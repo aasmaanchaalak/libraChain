@@ -59,11 +59,11 @@ async function main() {
             await contract.submitTransaction('addBook', id, arg1, arg2, arg3);
             console.log(`${choice} Transaction has been submitted`);
         } else if (choice === 'issueBook') {
-            await contract.submitTransaction('issueBook', id, arg1);
-            console.log(`${choice} Transaction has been submitted`);
+            let check = await contract.submitTransaction('issueBook', id, arg1);
+            console.log(`${check}`);
         } else if (choice === 'returnBook') {
-            await contract.submitTransaction('returnBook', id, arg1);
-            console.log(`${choice} Transaction has been submitted`);
+            let check = await contract.submitTransaction('returnBook', id, arg1);
+            console.log(`${check}`);
         } else if (choice === 'updateBook') {
             await contract.submitTransaction('updateBook', id, arg1, arg2, arg3);
             console.log(`${choice} Transaction has been submitted`);
