@@ -78,7 +78,7 @@ class FabChat extends Contract {
                     user = JSON.parse(res.value.value.toString('utf8'));
 
                     if (user.email == email){
-                        return JSON.stringify(user.id);
+                        return JSON.stringify({id:user.id, lendingPeriod = user.lendingPeriod, books = user.currentBooks.length});
                     }
 
                 } catch (err) {
