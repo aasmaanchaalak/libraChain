@@ -103,8 +103,8 @@ app.get('/find', (req, res) => {
     var q = url.parse(req.url, true).query;
     var id = q.id;
     var name = q.name;
-    var author = q.author ? q.author : "";
-    var genre = q.genre ? q.genre : "";
+    var author = q.author ? q.author : "NA";
+    var genre = q.genre ? q.genre : "NA";
     child = exec(`node query findBook ${name} ${author} ${genre}`,
     function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
