@@ -480,6 +480,12 @@ class FabChat extends Contract {
         await iterator.close();
         console.info(allResults);
 
+        if (book.issuer){
+            if (book.issuer != "NA"){
+                return JSON.stringify("Book is already issued.");
+            }
+        }
+
         let secs = ctx.stub.getTxTimestamp().seconds.low;
         const date = new Date(0);
         date.setUTCSeconds(secs);
