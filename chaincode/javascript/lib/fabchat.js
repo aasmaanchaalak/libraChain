@@ -268,7 +268,6 @@ class FabChat extends Contract {
             if (res.done) {
                 await iterator.close();
                 console.info(allResults);
-                console.log("vfvefvfev");
                 console.info('============= END : queryAllBooks ===========');
                 return JSON.stringify(allResults);
             }
