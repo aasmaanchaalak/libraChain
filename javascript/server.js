@@ -1,3 +1,4 @@
+const https = require('https');
 const express = require('express');
 const cors = require('cors');
 var url = require('url');
@@ -36,7 +37,7 @@ app.get('/admin', (req, res) => {
 app.get('/register', (req, res) => {
     var q = url.parse(req.url, true).query;
     var id = q.id;
-    child = exec(`node registerUser ${id}`,
+    child = exec(`node registerUser "${id}"`,
     function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
@@ -53,7 +54,7 @@ app.get('/student', (req, res) => {
     var q = url.parse(req.url, true).query;
     var email = q.email;
     var name = q.name;
-    child = exec(`node invoke registerStudent ${email} ${name}`,
+    child = exec(`node invoke registerStudent "${email}" "${name}"`,
     function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
@@ -69,7 +70,7 @@ app.get('/student', (req, res) => {
 app.get('/login', (req, res) => {
     var q = url.parse(req.url, true).query;
     var email = q.email;
-    child = exec(`node query loginStudent ${email}`,
+    child = exec(`node query loginStudent "${email}"`,
     function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
@@ -104,7 +105,7 @@ app.get('/find', (req, res) => {
     var name = q.name;
     var author = q.author ? q.author : "NA";
     var genre = q.genre ? q.genre : "NA";
-    child = exec(`node query findBook ${name} ${author} ${genre}`,
+    child = exec(`node query findBook "${name}" "${author}" "${genre}"`,
     function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
@@ -123,7 +124,7 @@ app.get('/add', (req, res) => {
     var name = q.name;
     var author = q.author ? q.author : "";
     var genre = q.genre ? q.genre : "";
-    child = exec(`node invoke addBook ${id} ${name} ${author} ${genre}`,
+    child = exec(`node invoke addBook "${id}" "${name}" "${author}" "${genre}"`,
     function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
@@ -142,7 +143,7 @@ app.get('/update', (req, res) => {
     var name = q.name;
     var author = q.author ? q.author : "";
     var genre = q.genre ? q.genre : "";
-    child = exec(`node invoke updateBook ${id} ${name} ${author} ${genre}`,
+    child = exec(`node invoke updateBook "${id}" "${name}" "${author}" "${genre}"`,
     function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
@@ -159,7 +160,7 @@ app.get('/issue', (req, res) => {
     var q = url.parse(req.url, true).query;
     var id = q.id;
     var name = q.name;
-    child = exec(`node invoke issueBook ${id} ${name}`,
+    child = exec(`node invoke issueBook "${id}" "${name}"`,
     function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
@@ -176,7 +177,7 @@ app.get('/return', (req, res) => {
     var q = url.parse(req.url, true).query;
     var id = q.id;
     var name = q.name;
-    child = exec(`node invoke returnBook ${id} ${name}`,
+    child = exec(`node invoke returnBook "${id}" "${name}"`,
     function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
@@ -193,7 +194,7 @@ app.get('/current', (req, res) => {
     var q = url.parse(req.url, true).query;
     var id = q.id;
     var name = q.name;
-    child = exec(`node query getUser ${id}`,
+    child = exec(`node query getUser "${id}"`,
     function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
