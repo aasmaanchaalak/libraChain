@@ -8,7 +8,7 @@ const {Contract} = require('fabric-contract-api');
 const ClientIdentity = require('fabric-shim').ClientIdentity;
 
 let bID = -1; //start key for books
-let uID = 98; //start key for users
+let uID = 100; //start key for users
 // list of users
 let users = [];
 let email = "";
@@ -24,38 +24,13 @@ class FabChat extends Contract {
 
         const iterator = await ctx.stub.getStateByRange(BookStartKey, BookEndKey);
 
-        while (true) {
-            const res = await iterator.next();
-
-            if (res.value && res.value.value.toString()) {
-                // console.log(res.value.value.toString('utf8'));
-                let book;
-                try {
-                    book = JSON.parse(res.value.value.toString('utf8'));
-
-                    bID += 1;
-
-                } catch (err) {
-                    console.log(err);
-                    book = res.value.value.toString('utf8');
-                }
-            }
-
-            if (res.done) {
-                await iterator.close();
-                console.log(`users: ${users}`);
-                console.log(`numUsers: ${users.length}`);
-                console.log(`lastMsgID: ${bID}`);
-                break;
-            }
-        }
         console.info('============= END : Initialize Ledger ===========');
     }
 
     async registerStudent(ctx, email, name) {
         console.info('============= START : Register Student ===========');
 
-        let cid = new ClientIdentity(ctx.stub);
+        //let cid = new ClientIdentity(ctx.stub);
 
         console.log(`Email : ${email}`);
         console.log(`Name : ${name}`);
@@ -74,8 +49,7 @@ class FabChat extends Contract {
             lendingPeriod
         };
 
-        console.log("doing this");
-        console.log(`${uID}`);
+        console.log(`${uID.toString()}`);
         
         await ctx.stub.putState(uID.toString(), Buffer.from(JSON.stringify(Student)));
         return JSON.stringify(uID);
@@ -85,7 +59,7 @@ class FabChat extends Contract {
     async loginStudent(ctx, email) {
         let cid = new ClientIdentity(ctx.stub);
 
-        const startKey = '99';
+        const startKey = '101';
         const endKey = '199';
 
         const iterator = await ctx.stub.getStateByRange(startKey, endKey);
@@ -125,10 +99,10 @@ class FabChat extends Contract {
         let userID = id;
 
         if (author === undefined) {
-            author = "";
+            author = "NA";
         }
         if (genre === undefined) {
-            genre = "";
+            genre = "NA";
         }
 
 
@@ -148,6 +122,8 @@ class FabChat extends Contract {
 
         bID += 1;
 
+        console.log(`${bID.toString()}`);
+
         await ctx.stub.putState(bID.toString(), Buffer.from(JSON.stringify(Book)));
         console.info('============= END : Added Book ===========');
     }
@@ -156,10 +132,10 @@ class FabChat extends Contract {
         console.info('============= START : Update Book ===========');
 
         if (author === undefined) {
-            author = "";
+            author = "NA";
         }
         if (genre === undefined) {
-            genre = "";
+            genre = "NA";
         }
 
         let cid = new ClientIdentity(ctx.stub);
@@ -195,11 +171,11 @@ class FabChat extends Contract {
                 }
             }
         }
-
                 if (!book.name || book.name != name){
                     return JSON.stringify("Book not found.");
                 }
-        
+                
+
                 if (book.owner != userID){
                     return JSON.stringify("Books can only be edited by owners.");
                 }
@@ -232,7 +208,9 @@ class FabChat extends Contract {
 
                 if (Key != -1){
                     await ctx.stub.putState(bID.toString(), Buffer.from(JSON.stringify(Book)));
+                    
                 }
+                
                 console.info('============= END : Added Book ===========');
                 return JSON.stringify(Book);
             }
@@ -249,16 +227,19 @@ class FabChat extends Contract {
         const allResults = [];
         while (true) {
             const res = await iterator.next();
+            
+            console.log(res);
 
             if (res.value && res.value.value.toString()) {
                 // console.log(res.value.value.toString('utf8'));
 
                 const Key = res.value.key;
+                console.log(Key);
 
                 if (parseInt(Key) > parseInt(endKey)){
                     continue;
                 }
-                
+
                 let book;
                 try {
                     book = JSON.parse(res.value.value.toString('utf8'));
@@ -268,7 +249,7 @@ class FabChat extends Contract {
                     book = res.value.value.toString('utf8');
                 }
                 allResults.push({Key, book});
-            }
+            } 
             if (res.done) {
                 await iterator.close();
                 console.info(allResults);
@@ -281,7 +262,7 @@ class FabChat extends Contract {
     async getUsers(ctx) {
         console.info('============= START : getAllUsers ===========');
 
-        const startKey = '99';
+        const startKey = '101';
         const endKey = '199';
 
         const iterator = await ctx.stub.getStateByRange(startKey, endKey);
@@ -294,6 +275,7 @@ class FabChat extends Contract {
                 // console.log(res.value.value.toString('utf8'));
 
                 const Key = res.value.key;
+                console.log(Key);
                 let user;
                 try {
                     user = JSON.parse(res.value.value.toString('utf8'));
@@ -343,7 +325,7 @@ class FabChat extends Contract {
                 if (parseInt(Key) > parseInt(endKey)){
                     continue;
                 }
-                
+
                 let book;
                 try {
                     book = JSON.parse(res.value.value.toString('utf8'));
@@ -380,7 +362,7 @@ class FabChat extends Contract {
 
                 } catch (err) {
                     console.log(err);
-                    book = res.value.value.toString('utf8');
+                    purchase = res.value.value.toString('utf8');
                 }
             }
             if (res.done) {
@@ -400,7 +382,7 @@ class FabChat extends Contract {
         let cid = new ClientIdentity(ctx.stub);
         let issuer = id;
 
-        let startKey = '99';
+        let startKey = '101';
         let endKey = '199';
 
         let iterator = await ctx.stub.getStateByRange(startKey, endKey);
@@ -435,7 +417,7 @@ class FabChat extends Contract {
         console.log(user);
 
         if (user.currentBooks && user.currentBooks.length == 3){
-            return "You have already issued 3 books. Can't issue more."
+            return JSON.stringify("You have already issued 3 books. Can't issue more.");
         } else if (user.currentBooks){
             user.currentBooks.push(name);
         } else {
@@ -480,10 +462,6 @@ class FabChat extends Contract {
         await iterator.close();
         console.info(allResults);
 
-        if (!book.name || book.name != name){
-                    return JSON.stringify("Book not found.");
-        }
-
         if (book.issuer){
             if (book.issuer != "NA"){
                 return JSON.stringify("Book is already issued.");
@@ -522,7 +500,7 @@ class FabChat extends Contract {
 
         let cid = new ClientIdentity(ctx.stub);
 
-        const startKey = '99';
+        const startKey = '101';
         const endKey = '199';
 
         const iterator = await ctx.stub.getStateByRange(startKey, endKey);
@@ -561,7 +539,7 @@ class FabChat extends Contract {
         let cid = new ClientIdentity(ctx.stub);
         let returner = id;
 
-        let startKey = '99';
+        let startKey = '101';
         let endKey = '199';
 
         let iterator = await ctx.stub.getStateByRange(startKey, endKey);
@@ -628,15 +606,11 @@ class FabChat extends Contract {
         }
                 await iterator2.close();
 
-                if (!book.name || book.name != name){
-                    return JSON.stringify("Book not found.");
-                }
-
                 if (book.issuer != returner){
                     return "You can't return the book. Wrong ID."
                 }
 
-                book.issuer = "";
+                book.issuer = "NA";
                 
                 let today = new Date(0);
                 today.setUTCSeconds(ctx.stub.getTxTimestamp().seconds.low);
