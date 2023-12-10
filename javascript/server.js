@@ -5,7 +5,7 @@ var exec = require('child_process').exec,
     child;
 
 const app = express();
-const port = 443;
+const port = 3000;
 
 // Middleware to parse JSON in request body
 app.use(express.json());
