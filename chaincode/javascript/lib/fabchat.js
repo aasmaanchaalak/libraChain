@@ -85,8 +85,8 @@ class FabChat extends Contract {
     async loginStudent(ctx, email) {
         let cid = new ClientIdentity(ctx.stub);
 
-        const startKey = '100';
-        const endKey = '200';
+        const startKey = '99';
+        const endKey = '199';
 
         const iterator = await ctx.stub.getStateByRange(startKey, endKey);
 
@@ -166,7 +166,7 @@ class FabChat extends Contract {
         let userID = cid.getID();
 
         const startKey = '0';
-        const endKey = '100';
+        const endKey = '99';
 
         const iterator = await ctx.stub.getStateByRange(startKey, endKey);
 
@@ -238,7 +238,7 @@ class FabChat extends Contract {
         console.info('============= START : queryAllBooks ===========');
 
         const startKey = '0';
-        const endKey = '100';
+        const endKey = '99';
 
         const iterator = await ctx.stub.getStateByRange(startKey, endKey);
 
@@ -273,8 +273,8 @@ class FabChat extends Contract {
     async getUsers(ctx) {
         console.info('============= START : getAllUsers ===========');
 
-        const startKey = '100';
-        const endKey = '200';
+        const startKey = '99';
+        const endKey = '199';
 
         const iterator = await ctx.stub.getStateByRange(startKey, endKey);
 
@@ -320,7 +320,7 @@ class FabChat extends Contract {
         }
 
         const startKey = '0';
-        const endKey = '100';
+        const endKey = '99';
 
         const iterator = await ctx.stub.getStateByRange(startKey, endKey);
 
@@ -388,8 +388,8 @@ class FabChat extends Contract {
         let cid = new ClientIdentity(ctx.stub);
         let issuer = id;
 
-        let startKey = '100';
-        let endKey = '200';
+        let startKey = '99';
+        let endKey = '199';
 
         let iterator = await ctx.stub.getStateByRange(startKey, endKey);
 
@@ -433,7 +433,7 @@ class FabChat extends Contract {
         let yo = await ctx.stub.putState(issuerKey, Buffer.from(JSON.stringify(user)));
 
         startKey = '0';
-        endKey = '100';
+        endKey = '99';
 
         iterator = await ctx.stub.getStateByRange(startKey, endKey);
 
@@ -500,8 +500,8 @@ class FabChat extends Contract {
 
         let cid = new ClientIdentity(ctx.stub);
 
-        const startKey = '100';
-        const endKey = '200';
+        const startKey = '99';
+        const endKey = '199';
 
         const iterator = await ctx.stub.getStateByRange(startKey, endKey);
 
@@ -539,8 +539,8 @@ class FabChat extends Contract {
         let cid = new ClientIdentity(ctx.stub);
         let returner = id;
 
-        let startKey = '100';
-        let endKey = '200';
+        let startKey = '99';
+        let endKey = '199';
 
         let iterator = await ctx.stub.getStateByRange(startKey, endKey);
 
@@ -574,7 +574,7 @@ class FabChat extends Contract {
         console.log(user);
 
         startKey = '0';
-        endKey = '100';
+        endKey = '99';
 
         let iterator2 = await ctx.stub.getStateByRange(startKey, endKey);
 
