@@ -196,7 +196,7 @@ class FabChat extends Contract {
             }
         }
 
-                if (book.name != name){
+                if (!book.name || book.name != name){
                     return JSON.stringify("Book not found.");
                 }
         
@@ -380,7 +380,7 @@ class FabChat extends Contract {
 
                 } catch (err) {
                     console.log(err);
-                    purchase = res.value.value.toString('utf8');
+                    book = res.value.value.toString('utf8');
                 }
             }
             if (res.done) {
@@ -479,6 +479,10 @@ class FabChat extends Contract {
         }
         await iterator.close();
         console.info(allResults);
+
+        if (!book.name || book.name != name){
+                    return JSON.stringify("Book not found.");
+        }
 
         if (book.issuer){
             if (book.issuer != "NA"){
@@ -623,6 +627,10 @@ class FabChat extends Contract {
             }
         }
                 await iterator2.close();
+
+                if (!book.name || book.name != name){
+                    return JSON.stringify("Book not found.");
+                }
 
                 if (book.issuer != returner){
                     return "You can't return the book. Wrong ID."
