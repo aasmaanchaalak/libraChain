@@ -389,7 +389,7 @@ class FabChat extends Contract {
 
         let user;
         let Key;
-        for (let i=10; i<30; i++) {
+        while (true) {
             const res = await iterator.next();
 
             if (res.value && res.value.value.toString()) {
