@@ -109,7 +109,7 @@ app.get('/find', (req, res) => {
     function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
-        res.json(stdout);
+        res.json(JSON.parse(stdout));
         if (error !== null) {
         console.log('exec error: ' + error);
         res.json(error);
