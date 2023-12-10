@@ -196,6 +196,10 @@ class FabChat extends Contract {
             }
         }
 
+                if (book.name != name){
+                    return JSON.stringify("Book not found.");
+                }
+        
                 if (book.owner != userID){
                     return JSON.stringify("Books can only be edited by owners.");
                 }
