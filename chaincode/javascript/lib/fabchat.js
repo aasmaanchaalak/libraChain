@@ -152,7 +152,7 @@ class FabChat extends Contract {
         console.info('============= END : Added Book ===========');
     }
 
-    async updateBook(ctx, name, author, genre) {
+    async updateBook(ctx, id, name, author, genre) {
         console.info('============= START : Update Book ===========');
 
         if (author === undefined) {
@@ -163,7 +163,7 @@ class FabChat extends Contract {
         }
 
         let cid = new ClientIdentity(ctx.stub);
-        let userID = cid.getID();
+        let userID = id;
 
         const startKey = '0';
         const endKey = '99';
@@ -197,7 +197,7 @@ class FabChat extends Contract {
         }
 
                 if (book.owner != userID){
-                    return "Books can only be edited by owners.";
+                    return JSON.stringify("Books can only be edited by owners.");
                 }
             //if (res.done) {
                 await iterator.close();
