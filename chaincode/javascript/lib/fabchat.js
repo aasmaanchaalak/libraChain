@@ -401,9 +401,7 @@ class FabChat extends Contract {
 
                     if (user.id == issuer){
                         break;
-                    } else{
-                        return "USER NOT FOUND";
-                    }
+                    } 
 
                 } catch (err) {
                     console.log(err);
@@ -413,6 +411,10 @@ class FabChat extends Contract {
             }
         }
         let issuerKey = Key;
+
+        if (!user){
+            return JSON.stringify("USER NOT FOUND");
+        }
 
         console.log(user);
 
@@ -449,8 +451,6 @@ class FabChat extends Contract {
                     // don't show flagged records
                     if (book.name === name) {
                         break;
-                    } else {
-                        return "No book found";
                     }
 
                 } catch (err) {
@@ -461,6 +461,10 @@ class FabChat extends Contract {
         }
         await iterator.close();
         console.info(allResults);
+
+        if (!book){
+            return JSON.stringify("BOOK NOT FOUND");
+        }
 
         if (book.issuer){
             if (book.issuer != "NA"){
