@@ -493,7 +493,6 @@ class FabChat extends Contract {
         bID = parseInt(Key);
 
         await ctx.stub.putState(bID.toString(), Buffer.from(JSON.stringify(Book)));
-        return (JSON.stringify("Done"));
         console.info('============= END : Issue Book ===========');
     }
 
@@ -662,7 +661,6 @@ class FabChat extends Contract {
                 await ctx.stub.putState(returnerKey, Buffer.from(JSON.stringify(user)));
 
                 await ctx.stub.putState(bID.toString(), Buffer.from(JSON.stringify(Book)));
-                return (JSON.stringify("Done"));
                 console.info('============= END : Return Book ===========');
             
     }
