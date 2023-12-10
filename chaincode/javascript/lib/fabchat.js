@@ -497,6 +497,7 @@ class FabChat extends Contract {
         bID = parseInt(Key);
 
         await ctx.stub.putState(bID.toString(), Buffer.from(JSON.stringify(Book)));
+        return JSON.stringify("Done");
         console.info('============= END : Issue Book ===========');
     }
 
@@ -562,8 +563,6 @@ class FabChat extends Contract {
 
                     if (user.id == returner){
                         break;
-                    } else{
-                        return "USER NOT FOUND";
                     }
 
                 } catch (err) {
@@ -574,6 +573,10 @@ class FabChat extends Contract {
             }
         }
         let returnerKey = Key;
+
+        if (!user){
+            return JSON.stringify("USER NOT FOUND");
+        }
 
         console.log(user);
 
@@ -609,6 +612,10 @@ class FabChat extends Contract {
             }
         }
                 await iterator2.close();
+
+                if (!book){
+                    return JSON.stringify("BOOK NOT FOUND");
+                }
 
                 if (book.issuer != returner){
                     return "You can't return the book. Wrong ID."
@@ -665,6 +672,7 @@ class FabChat extends Contract {
                 await ctx.stub.putState(returnerKey, Buffer.from(JSON.stringify(user)));
 
                 await ctx.stub.putState(bID.toString(), Buffer.from(JSON.stringify(Book)));
+                return JSON.stringify("Done");
                 console.info('============= END : Return Book ===========');
             
     }
