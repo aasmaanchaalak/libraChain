@@ -51,7 +51,6 @@ app.get('/register', (req, res) => {
 
 app.get('/student', (req, res) => {
     var q = url.parse(req.url, true).query;
-    var id = q.id;
     var email = q.email;
     var name = q.name;
     child = exec(`node invoke registerStudent ${email} ${name}`,
