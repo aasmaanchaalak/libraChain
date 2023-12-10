@@ -8,7 +8,7 @@ const {Contract} = require('fabric-contract-api');
 const ClientIdentity = require('fabric-shim').ClientIdentity;
 
 let bID = -1; //start key for books
-let uID = 99; //start key for users
+let uID = 98; //start key for users
 // list of users
 let users = [];
 let email = "";
@@ -19,7 +19,7 @@ class FabChat extends Contract {
         console.info('============= START : Initialize Ledger ===========');
 
         const BookStartKey = '0';
-        const BookEndKey = '100';
+        const BookEndKey = '99';
         const userEndKey = '99999' ;
 
         const iterator = await ctx.stub.getStateByRange(BookStartKey, BookEndKey);
