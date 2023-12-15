@@ -42,7 +42,23 @@ async function main() {
 
         // Create a new gateway for connecting to our peer node.
         const gateway = new Gateway();
-        await gateway.connect(ccp, { wallet, identity: userID, discovery: { enabled: true, asLocalhost: true } });
+
+        const options: GatewayOptions = {
+            wallet,
+            identity: userID,
+            discovery: { enabled: true, asLocalhost: true },
+            eventHandlerOptions: {
+              commitTimeout: config.commitTimeOut,
+              endorseTimeout: config.endorseTimeOut,
+              strategy: DefaultEventHandlerStrategies.PREFER_MSPID_SCOPE_ANYFORTX,
+            },
+            queryHandlerOptions: {
+              timeout: config.queryTimeOut,
+              strategy: DefaultQueryHandlerStrategies.PREFER_MSPID_SCOPE_ROUND_ROBIN,
+            },
+          };
+        
+        await gateway.connect(ccp, options);
 
         // Get the network (channel) our contract is deployed to.
         const network = await gateway.getNetwork('mychannel');
