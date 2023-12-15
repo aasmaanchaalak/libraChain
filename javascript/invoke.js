@@ -48,12 +48,12 @@ async function main() {
             identity: userID,
             discovery: { enabled: true, asLocalhost: true },
             eventHandlerOptions: {
-              commitTimeout: config.commitTimeOut,
-              endorseTimeout: config.endorseTimeOut,
+              commitTimeout: 5000,
+              endorseTimeout: 5000,
               strategy: DefaultEventHandlerStrategies.PREFER_MSPID_SCOPE_ANYFORTX,
             },
             queryHandlerOptions: {
-              timeout: config.queryTimeOut,
+              timeout: 5000,
               strategy: DefaultQueryHandlerStrategies.PREFER_MSPID_SCOPE_ROUND_ROBIN,
             },
           };
