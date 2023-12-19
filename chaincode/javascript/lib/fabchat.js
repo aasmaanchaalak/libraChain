@@ -57,6 +57,7 @@ class FabChat extends Contract {
     }
 
     async loginStudent(ctx, email) {
+        console.info('============= START : Login Student ===========');
         let cid = new ClientIdentity(ctx.stub);
 
         const startKey = '101';
@@ -86,10 +87,10 @@ class FabChat extends Contract {
                     user = res.value.value.toString('utf8');
                 }
             }
-        }
             await iterator.close();
-            return "User not found.";
+            return JSON.stringify("USER NOT FOUND");
             console.info('============= END : Find User ===========');
+        }
     }
 
     async addBook(ctx, id, name, author, genre) {
