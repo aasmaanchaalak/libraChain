@@ -45,7 +45,7 @@ async function main() {
 
         const options: GatewayOptions = {
             wallet,
-            identity: userID,
+            identity: identity,
             discovery: { enabled: true, asLocalhost: true },
             eventHandlerOptions: {
               commitTimeout: 5000,
