@@ -53,7 +53,7 @@ async function main() {
             },
             queryHandlerOptions: {
               timeout: 5000,
-              strategy: DefaultQueryHandlerStrategies.PREFER_MSPID_SCOPE_ROUND_ROBIN,
+              //strategy: DefaultQueryHandlerStrategies.PREFER_MSPID_SCOPE_ROUND_ROBIN,
             },
           };
         
