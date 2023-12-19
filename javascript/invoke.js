@@ -50,7 +50,6 @@ async function main() {
             eventHandlerOptions: {
               commitTimeout: 5000,
               endorseTimeout: 5000,
-              strategy: DefaultEventHandlerStrategies.PREFER_MSPID_SCOPE_ANYFORTX,
             },
             queryHandlerOptions: {
               timeout: 5000,
