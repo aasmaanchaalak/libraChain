@@ -43,7 +43,7 @@ async function main() {
         // Create a new gateway for connecting to our peer node.
         const gateway = new Gateway();
 
-        const options: GatewayOptions = {
+        let options: GatewayOptions = {
             wallet,
             identity: identity,
             discovery: { enabled: true, asLocalhost: true },
