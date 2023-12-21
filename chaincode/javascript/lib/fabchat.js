@@ -87,10 +87,10 @@ class FabChat extends Contract {
                     user = res.value.value.toString('utf8');
                 }
             }
-            await iterator.close();
-            return JSON.stringify("USER NOT FOUND");
-            console.info('============= END : Find User ===========');
         }
+        await iterator.close();
+        return JSON.stringify("USER NOT FOUND");
+        console.info('============= END : Find User ===========');
     }
 
     async addBook(ctx, id, name, author, genre) {
