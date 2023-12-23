@@ -52,7 +52,7 @@ class FabChat extends Contract {
         console.log(`${uID.toString()}`);
         
         await ctx.stub.putState(uID.toString(), Buffer.from(JSON.stringify(Student)));
-        return JSON.stringify(uID);
+        return JSON.stringify({id:uID});
         console.info('============= END : Added Student ===========');
     }
 
